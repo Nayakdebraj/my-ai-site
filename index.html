@@ -1,157 +1,813 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Video Generator</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0e0e0e;
-      color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #1a1a1a;
-      padding: 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-      color: #00ffff;
-    }
-    form {
-      max-width: 800px;
-      margin: 20px auto;
-      background: #1c1c1c;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #00ffff44;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input[type="text"], textarea, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #555;
-      background-color: #222;
-      color: #f5f5f5;
-    }
-    input[type="file"] {
-      margin-top: 10px;
-      color: #f5f5f5;
-    }
-    button {
-      margin-top: 20px;
-      padding: 12px 20px;
-      background-color: #00ffff;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #00dddd;
-    }
-    .section {
-      margin-bottom: 25px;
-    }
-    h2 {
-      color: #00ffff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexGen AI Studios - [Your Name/Brand]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables for easier theme management */
+        :root {
+            --color-dark: #0a0a0a;
+            --color-dark-alt: #1a1a1a;
+            --color-dark-light: #2c2c2c; /* Slightly lighter dark for depth */
+            --color-primary: #00e6e6; /* Vibrant Aqua Blue */
+            --color-secondary: #00aaff; /* Slightly darker blue */
+            --color-text-light: #e0e0e0;
+            --color-text-mid: #b0b0b0;
+            --color-border: #333;
+            --transition-speed: 0.4s ease-out;
+            --border-radius: 12px;
+        }
+
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Oxanium', sans-serif; /* Modern, slightly techy font */
+            background-color: var(--color-dark);
+            color: var(--color-text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+            scroll-behavior: smooth; /* Smooth scrolling for nav links */
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--color-dark-alt);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif; /* Futuristic font for logo */
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+            text-shadow: 0 0 15px rgba(0, 230, 230, 0.6);
+            letter-spacing: 1px;
+            transition: color var(--transition-speed);
+        }
+
+        .logo:hover {
+            color: var(--color-secondary);
+        }
+
+        .logo span {
+            color: var(--color-text-light);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 40px;
+        }
+
+        nav ul li a {
+            color: var(--color-text-light);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1.05em;
+            position: relative;
+            padding-bottom: 5px;
+            transition: color var(--transition-speed);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-primary);
+            transition: width var(--transition-speed);
+        }
+
+        nav ul li a:hover {
+            color: var(--color-primary);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--color-text-light);
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--color-dark), var(--color-dark-alt) 70%); /* Subtle gradient */
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Subtle particle effect via CSS */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 10% 20%, var(--color-primary) 1px, transparent 1px),
+                              radial-gradient(circle at 90% 80%, var(--color-secondary) 1px, transparent 1px);
+            background-size: 25px 25px;
+            opacity: 0.05; /* Very subtle */
+            z-index: 1;
+            animation: moveParticles 60s linear infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.4); /* Slightly transparent background */
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(8px); /* Glassmorphism effect */
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 10px 40px rgba(0, 230, 230, 0.2);
+            animation: slideInUp 1.2s ease-out;
+        }
+
+        .hero-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 25px rgba(0, 230, 230, 0.8);
+            letter-spacing: 2px;
+        }
+
+        .hero-content p {
+            font-size: 1.4em;
+            margin-bottom: 40px;
+            color: var(--color-text-mid);
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+            color: var(--color-dark);
+            padding: 16px 35px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.25em;
+            transition: all var(--transition-speed);
+            box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: skewX(-20deg);
+            transition: all var(--transition-speed);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0, 230, 230, 0.8);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 100px 25px;
+            max-width: 1280px;
+            margin: 0 auto;
+            text-align: center;
+            background-color: var(--color-dark-alt);
+            border-bottom: 1px solid var(--color-border);
+            box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .section:nth-child(even) { /* Alternate background for sections */
+            background-color: var(--color-dark);
+            box-shadow: inset 0 -8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .section h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.2em;
+            color: var(--color-primary);
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+            border-radius: 2px;
+            animation: pulseUnderline 2s infinite alternate;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .grid-item {
+            background-color: var(--color-dark-light);
+            padding: 35px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
+            text-align: left;
+            border: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .grid-item::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 230, 230, 0.1);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.6;
+            transition: all var(--transition-speed);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-15px);
+            background-color: #1f1f1f;
+            box-shadow: 0 15px 45px rgba(0, 230, 230, 0.4);
+            border-color: var(--color-primary);
+        }
+
+        .grid-item:hover::before {
+            transform: scale(1.5);
+            opacity: 0.8;
+        }
+
+        .grid-item i {
+            font-size: 3.5em;
+            color: var(--color-primary);
+            margin-bottom: 25px;
+            display: block;
+            text-align: center;
+            transition: transform var(--transition-speed);
+        }
+
+        .grid-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .grid-item h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            color: var(--color-text-light);
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .grid-item p {
+            font-size: 1.05em;
+            color: var(--color-text-mid);
+            flex-grow: 1; /* Allows content to push link to bottom */
+        }
+
+        .grid-item .learn-more {
+            display: inline-block;
+            margin-top: 25px;
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 700;
+            position: relative;
+            padding-right: 20px;
+            transition: color var(--transition-speed);
+        }
+
+        .grid-item .learn-more::after {
+            content: '\2192'; /* Right arrow */
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform var(--transition-speed);
+        }
+
+        .grid-item .learn-more:hover {
+            color: var(--color-secondary);
+        }
+
+        .grid-item .learn-more:hover::after {
+            transform: translateY(-50%) translateX(5px);
+        }
+
+        /* Portfolio/Showcase */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .portfolio-item {
+            background-color: var(--color-dark-light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--color-border);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 45px rgba(0, 230, 230, 0.3);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .portfolio-item .content {
+            padding: 25px;
+            text-align: left;
+        }
+
+        .portfolio-item h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6em;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+
+        .portfolio-item p {
+            font-size: 1em;
+            color: var(--color-text-mid);
+            margin-bottom: 15px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding-bottom: 100px;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: var(--color-dark-light);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--color-border);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: var(--color-text-light);
+            font-size: 1.1em;
+            text-align: left;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: calc(100% - 24px); /* Account for padding */
+            padding: 12px;
+            margin-bottom: 25px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            background-color: var(--color-dark-alt);
+            color: var(--color-text-light);
+            font-size: 1.05em;
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 15px rgba(0, 230, 230, 0.5);
+        }
+
+        .contact-form button {
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+            color: var(--color-dark);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-form button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: skewX(-20deg);
+            transition: all var(--transition-speed);
+        }
+
+        .contact-form button:hover::before {
+            left: 100%;
+        }
+
+        .contact-form button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 230, 230, 0.8);
+        }
+
+
+        /* Footer */
+        footer {
+            background-color: var(--color-dark-alt);
+            padding: 40px 25px;
+            text-align: center;
+            color: var(--color-text-mid);
+            border-top: 1px solid var(--color-border);
+            box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 0.95em;
+        }
+
+        footer p {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: var(--color-text-light);
+            font-size: 1.8em;
+            margin: 0 15px;
+            transition: color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .social-links a:hover {
+            color: var(--color-primary);
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(80px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulseUnderline {
+            0% { width: 0; opacity: 0.5; }
+            50% { width: 120px; opacity: 1; }
+            100% { width: 0; opacity: 0.5; }
+        }
+
+        @keyframes moveParticles {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content h2 {
+                font-size: 3.5em;
+            }
+            .section h3 {
+                font-size: 2.8em;
+            }
+            .grid-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+            }
+            .logo {
+                margin-bottom: 20px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            nav ul li {
+                margin: 0 15px 15px 15px;
+            }
+            .hero {
+                height: 70vh;
+            }
+            .hero-content h2 {
+                font-size: 2.8em;
+            }
+            .hero-content p {
+                font-size: 1.2em;
+            }
+            .cta-button {
+                padding: 14px 28px;
+                font-size: 1.1em;
+            }
+            .section {
+                padding: 70px 20px;
+            }
+            .section h3 {
+                font-size: 2.2em;
+            }
+            .grid-item, .portfolio-item {
+                padding: 25px;
+            }
+            .contact-form {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.8em;
+            }
+            nav ul li {
+                margin: 0 10px 10px 10px;
+                font-size: 0.9em;
+            }
+            .hero {
+                height: 60vh;
+            }
+            .hero-content h2 {
+                font-size: 2em;
+                margin-bottom: 15px;
+            }
+            .hero-content p {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            .section h3 {
+                font-size: 1.8em;
+                margin-bottom: 40px;
+            }
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            .grid-item h4 {
+                font-size: 1.5em;
+            }
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .portfolio-item img {
+                height: 200px;
+            }
+            .contact-form input,
+            .contact-form textarea {
+                width: calc(100% - 20px);
+            }
+            footer {
+                padding: 25px 15px;
+            }
+            .social-links a {
+                font-size: 1.5em;
+                margin: 0 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>🌌 AI Video Generator</h1>
-  </header>
-  <form>
-    <div class="section">
-      <h2>🗂 Input Options</h2>
-      <label>Paste blog/article URL:</label>
-      <input type="text" placeholder="Enter URL here..." />
 
-      <label>Or paste your own script/text:</label>
-      <textarea rows="4" placeholder="Enter custom text..."></textarea>
+    <header>
+        <div class="container">
+            <a href="#home" class="logo">NexGen AI<span>.</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#ai-features">AI Features</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-      <label>Or upload .txt or .docx file:</label>
-      <input type="file" />
-    </div>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Transforming Ideas with Next-Gen AI</h2>
+            <p>Empowering creators and businesses with a comprehensive suite of AI-driven tools for unparalleled digital content generation.</p>
+            <a href="#ai-features" class="cta-button">Discover AI Solutions</a>
+        </div>
+    </section>
 
-    <div class="section">
-      <h2>🗣️ Voiceover Options</h2>
-      <label>Voice Gender:</label>
-      <select>
-        <option>Male</option>
-        <option>Female</option>
-        <option>Neutral</option>
-      </select>
+    <section id="ai-features" class="section">
+        <h3>Our Advanced AI Capabilities</h3>
+        <p style="font-size: 1.2em; color: var(--color-text-mid); margin-bottom: 60px;">Explore the cutting-edge tools designed to streamline your creative and marketing workflows.</p>
+        <div class="grid-container">
+            <div class="grid-item">
+                <i class="fas fa-video"></i>
+                <h4>AI URL to Video Generation</h4>
+                <p>Instantly convert web pages, articles, or product URLs into engaging video content with AI-driven narration and visuals.</p>
+                <a href="https://example.com/ai-url-to-video-tool" target="_blank" class="learn-more">Learn More</a>
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-robot"></i>
+                <h4>Dynamic Avatar Marketing Videos</h4>
+                <p>Craft compelling marketing narratives using customizable AI video avatars. Personalize your message with lifelike digital presenters.</p>
+                <a href="https://example.com/ai-avatar-marketing-tool" target="_blank" class="learn-more">Learn More</a>
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-user-circle"></i>
+                <h4>Personalized Video Avatars</h4>
+                <p>Generate unique, expressive video avatars from your photos or text. Ideal for digital identities, e-learning, and virtual assistants.</p>
+                <a href="https://example.com/ai-video-avatar-creator" target="_blank" class="learn-more">Learn More</a>
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-cube"></i>
+                <h4>AI Product Anyshoot & Visualization</h4>
+                <p>Create stunning product visuals, 3D models, and dynamic "anyshots" from simple inputs. Eliminate traditional photography costs.</p>
+                <a href="https://example.com/ai-product-anyshoot-tool" target="_blank" class="learn-more">Learn More</a>
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-code-branch"></i>
+                <h4>Automated Batch Link to Video</h4>
+                <p>Transform entire lists of links into a series of professional videos. Perfect for large-scale content repurposing and automation.</p>
+                <a href="https://example.com/ai-batch-video-tool" target="_blank" class="learn-more">Learn More</a>
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-image"></i>
+                <h4>Advanced Text to Image Generation</h4>
+                <p>Generate high-resolution, unique images from descriptive text prompts. Unleash limitless visual creativity for any project.</p>
+                <a href="https://example.com/ai-text-to-image-tool" target="_blank" class="learn-more">Learn More</a>
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-camera-retro"></i>
+                <h4>AI Photo Avatar Creation</h4>
+                <p>Develop artistic and stylized avatars from your photos. Explore diverse aesthetics for profiles, games, or digital art.</p>
+                <a href="https://example.com/ai-photo-avatar-tool" target="_blank" class="learn-more">Learn More</a>
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-file-video"></i>
+                <h4>Image/Text to Video Synthesis</h4>
+                <p>Convert static images and written content into compelling video narratives. Ideal for storytelling, presentations, and social media.</p>
+                <a href="https://example.com/ai-image-text-to-video-tool" target="_blank" class="learn-more">Learn More</a>
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-microphone-alt"></i>
+                <h4>Realistic AI Voice Generation</h4>
+                <p>Produce natural-sounding voiceovers in a multitude of languages, accents, and emotional tones for any multimedia project.</p>
+                <a href="https://example.com/ai-voice-generator-tool" target="_blank" class="learn-more">Learn More</a>
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-layer-group"></i>
+                <h4>AI-Powered Smart Templates</h4>
+                <p>Accelerate your design process with intelligently generated templates for presentations, videos, and graphic design.</p>
+                <a href="https://example.com/ai-templates-tool" target="_blank" class="learn-more">Learn More</a>
+            </div>
+        </div>
+    </section>
 
-      <label>Voice Accent:</label>
-      <select>
-        <option>US</option>
-        <option>UK</option>
-        <option>Indian</option>
-        <option>Australian</option>
-      </select>
+    <section id="portfolio" class="section portfolio">
+        <h3>My AI-Enhanced Portfolio</h3>
+        <p style="font-size: 1.2em; color: var(--color-text-mid); margin-bottom: 60px;">A selection of projects showcasing the power and versatility of AI in content creation.</p>
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <img src="https://source.unsplash.com/random/600x400/?futuristic-city,neon,ai-generated" alt="Project 1: Futuristic Cityscape">
+                <div class="content">
+                    <h4>Cyberpunk Cityscape Animation</h4>
+                    <p>Dynamic video generated from text prompts, showcasing urban sprawl and neon lights. AI-powered camera movements.</p>
+                    <a href="https://example.com/portfolio-item-1" target="_blank" class="learn-more">View Project</a>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://source.unsplash.com/random/600x400/?product-3d,tech-gadget,ai-render" alt="Project 2: Smartwatch Product Shot">
+                <div class="content">
+                    <h4>Hyper-Realistic Smartwatch Render</h4>
+                    <p>Product "anyshot" created entirely with AI, demonstrating various angles and material finishes without physical photography.</p>
+                    <a href="https://example.com/portfolio-item-2" target="_blank" class="learn-more">View Project</a>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://source.unsplash.com/random/600x400/?ai-news-anchor,broadcast" alt="Project 3: AI News Broadcast">
+                <div class="content">
+                    <h4>AI-Driven News Digest Video</h4>
+                    <p>Daily news summary delivered by a custom AI video avatar, showcasing advanced lip-sync and natural voice generation.</p>
+                    <a href="https://example.com/portfolio-item-3" target="_blank" class="learn-more">View Project</a>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://source.unsplash.com/random/600x400/?fantasy-art,ai-art,digital-painting" alt="Project 4: Abstract Fantasy Art">
+                <div class="content">
+                    <h4>Abstract Digital Art Series</h4>
+                    <p>A collection of surreal fantasy images generated using text-to-image AI, exploring themes of nature and technology.</p>
+                    <a href="https://example.com/portfolio-item-4" target="_blank" class="learn-more">View Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <label>Speed:</label>
-      <select>
-        <option>Normal</option>
-        <option>Slow</option>
-        <option>Fast</option>
-      </select>
+    <section id="contact" class="section contact">
+        <h3>Connect with NexGen AI</h3>
+        <p style="font-size: 1.2em; color: var(--color-text-mid); margin-bottom: 60px;">Ready to revolutionize your digital presence? Let's discuss your vision.</p>
+        <div class="contact-form">
+            <form action="YOUR_FORM_SUBMISSION_URL" method="POST"> <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required placeholder="John Doe">
 
-      <label>Pitch:</label>
-      <select>
-        <option>Normal</option>
-        <option>Low</option>
-        <option>High</option>
-      </select>
-    </div>
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="email" required placeholder="name@example.com">
 
-    <div class="section">
-      <h2>🧑‍💻 AI Avatar Options</h2>
-      <label>Select Avatar:</label>
-      <select>
-        <option>None (Just Images Video)</option>
-        <option>Male Avatar</option>
-        <option>Female Avatar</option>
-        <option>Animated Avatar (Mouth + Body Movement)</option>
-      </select>
-    </div>
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" placeholder="Project Inquiry">
 
-    <div class="section">
-      <h2>📏 Video Format</h2>
-      <label>Select Video Size:</label>
-      <select>
-        <option>16:9 (YouTube/Desktop)</option>
-        <option>9:16 (Reels/Shorts)</option>
-        <option>1:1 (Square)</option>
-        <option>4:5 (Insta/Facebook)</option>
-      </select>
-    </div>
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="message" rows="7" required placeholder="Tell me about your AI needs..."></textarea>
 
-    <div class="section">
-      <h2>📤 Output Options</h2>
-      <label>After video is ready:</label>
-      <select>
-        <option>View in browser</option>
-        <option>Download the video</option>
-        <option>Generate shareable link</option>
-      </select>
-    </div>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
 
-    <button type="submit">🚀 Generate AI Video</button>
-  </form>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NexGen AI Studios. All rights reserved.</p>
+            <p>Crafted with the power of AI & Web Design.</p>
+            <div class="social-links">
+                <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" target="_blank" aria-label="ArtStation"><i class="fab fa-artstation"></i></a>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
-
+  
