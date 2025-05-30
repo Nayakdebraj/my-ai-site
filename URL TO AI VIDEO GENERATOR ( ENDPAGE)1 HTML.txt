@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI URL to Video Generator - NexGen AI Studios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables for easier theme management (Black Design) */
+        :root {
+            /* Dark Theme Colors */
+            --color-dark-bg: #0a0a0a; /* Deep Black background */
+            --color-dark-alt: #1a1a1a; /* Slightly lighter dark for sections */
+            --color-dark-light: #2c2c2c; /* Even lighter dark for cards/forms */
+            --color-primary: #00ffff; /* Vibrant Cyan/Electric Blue */
+            --color-primary-dark: #00ccff; /* Slightly darker primary for text/hover */
+            --color-secondary: #ff00ff; /* Vibrant Magenta/Electric Purple */
+            --color-text-light: #e0e0e0; /* Light grey for main text */
+            --color-text-mid: #b0b0b0; /* Mid grey for secondary text */
+            --color-border-dark: #333333; /* Dark grey for borders */
+            --color-border-light: #444444; /* Lighter grey for subtle borders */
+            --color-success: #28a745; /* Green for success messages */
+            --color-error: #dc3545; /* Red for error messages */
+
+            /* General Styling Variables */
+            --transition-speed: 0.4s ease-out;
+            --border-radius-lg: 12px;
+            --border-radius-md: 8px;
+            --shadow-light: 0 4px 15px rgba(0, 255, 255, 0.05); /* Subtle glow for light elements on dark */
+            --shadow-medium: 0 8px 25px rgba(0, 255, 255, 0.1);
+            --shadow-strong: 0 12px 40px rgba(0, 255, 255, 0.2);
+            --shadow-dark-elements: 0 4px 15px rgba(0, 0, 0, 0.4); /* For elements on dark background */
+        }
+
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Oxanium', sans-serif; /* Modern, slightly techy font */
+            background-color: var(--color-dark-bg);
+            color: var(--color-text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+            scroll-behavior: smooth; /* Smooth scrolling for nav links */
+            /* Add a subtle overall shadow to the body for depth */
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.6) inset;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--color-dark-alt);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-dark-elements);
+            border-bottom: 1px solid var(--color-border-dark);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif; /* Futuristic font for logo */
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            letter-spacing: 1px;
+            transition: color var(--transition-speed);
+        }
+
+        .logo:hover {
+            color: var(--color-primary-dark);
+        }
+
+        .logo span {
+            color: var(--color-text-light);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 40px;
+        }
+
+        nav ul li a {
+            color: var(--color-text-light);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1.05em;
+            position: relative;
+            padding-bottom: 5px;
+            transition: color var(--transition-speed);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-primary);
+            transition: width var(--transition-speed);
+        }
+
+        nav ul li a:hover {
+            color: var(--color-primary);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section (Specific to tool pages) */
+        .tool-hero {
+            background: linear-gradient(135deg, var(--color-dark-bg), var(--color-dark-alt) 70%);
+            padding: 100px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--color-border-dark);
+        }
+        .tool-hero::before { /* Subtle pattern/particle effect */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                              radial-gradient(circle at 90% 80%, rgba(255, 0, 255, 0.05) 1px, transparent 1px);
+            background-size: 25px 25px;
+            opacity: 1;
+            z-index: 1;
+            animation: moveParticles 60s linear infinite;
+        }
+
+        .tool-hero .container {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 25px;
+            animation: slideInUp 1.2s ease-out;
+        }
+
+        .tool-hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4em;
+            color: var(--color-primary);
+            text-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .tool-hero .hero-subtitle {
+            font-size: 1.3em;
+            color: var(--color-text-mid);
+            margin-bottom: 40px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+            color: var(--color-dark-bg);
+            padding: 16px 35px;
+            text-decoration: none;
+            border-radius: var(--border-radius-md);
+            font-weight: 700;
+            font-size: 1.25em;
+            transition: all var(--transition-speed);
+            box-shadow: var(--shadow-medium);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            /* Add a subtle border for depth */
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: skewX(-20deg);
+            transition: all var(--transition-speed);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-strong);
+        }
+        .cta-button i { /* Icon within button */
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+        .cta-button:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 80px 25px;
+            max-width: 1280px;
+            margin: 0 auto;
+            text-align: center;
+            background-color: var(--color-dark-alt);
+            border-bottom: 1px solid var(--color-border-dark);
+            box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .section.dark-bg-alt { /* For alternating section backgrounds */
+            background-color: var(--color-dark-bg);
+            box-shadow: inset 0 -8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .section h2 { /* Consistent heading style for sections */
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.2em;
+            color: var(--color-primary);
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+            border-radius: 2px;
+            animation: pulseUnderline 2s infinite alternate;
+        }
+
+        .section .subtitle {
+            font-size: 1.2em;
+            color: var(--color-text-mid);
+            margin-bottom: 40px;
+        }
+
+        /* How It Works Specific Styling */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .step-item {
+            background-color: var(--color-dark-light);
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--color-border-light);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .step-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-strong);
+            /* Add a subtle glow on hover */
+            border-color: var(--color-primary);
+        }
+
+        .step-item i {
+            font-size: 3.5em;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease; /* Icon animation */
+        }
+
+        .step-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .step-item h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            color: var(--color-text-light);
+            margin-bottom: 15px;
+        }
+
+        .step-item p {
+            font-size: 1.05em;
+            color: var(--color-text-mid);
+        }
+
+        /* Video Demo Wrapper (if used on this page) */
+        .video-demo-wrapper {
+            max-width: 960px;
+            margin: 0 auto;
+            position: relative;
+            padding: 20px; /* Padding for shadow */
+            background: var(--color-dark-light);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--color-border-light);
+        }
+
+        .video-demo-wrapper video {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius-md);
+        }
+
+        .video-caption {
+            font-size: 1em;
+            color: var(--color-text-mid);
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        /* Try Tool Form */
+        .tool-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: var(--color-dark-light);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--color-border-light);
+        }
+
+        .tool-form label {
+            font-size: 1.1em;
+            color: var(--color-text-light);
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: left;
+            width: 100%; /* Ensure label takes full width */
+        }
+
+        .tool-form input[type="url"] {
+            width: calc(100% - 40px); /* Adjust for padding */
+            padding: 15px 20px;
+            border: 1px solid var(--color-border-dark);
+            border-radius: var(--border-radius-md);
+            background-color: var(--color-dark-alt);
+            color: var(--color-text-light);
+            font-size: 1.1em;
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .tool-form input[type="url"]:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5); /* Stronger glow on focus */
+        }
+
+        .tool-form button {
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+            color: var(--color-dark-bg);
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+            /* Add a subtle border for depth */
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .tool-form button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: skewX(-20deg);
+            transition: all var(--transition-speed);
+        }
+
+        .tool-form button:hover::before {
+            left: 100%;
+        }
+
+        .tool-form button:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-strong);
+        }
+        .tool-form button i {
+            margin-left: 10px;
+        }
+
+        .tool-form button:active {
+            transform: translateY(-2px); /* Slight press effect */
+            box-shadow: var(--shadow-light);
+        }
+
+
+        .status-message {
+            margin-top: 20px;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--color-text-light); /* Default color */
+            min-height: 2em; /* Reserve space to prevent layout shift */
+            transition: color 0.3s ease; /* Smooth color change for status */
+        }
+
+        /* Coming Soon Notice */
+        .coming-soon-box {
+            background-color: var(--color-dark-alt);
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            border: 1px dashed var(--color-primary);
+            margin-top: 40px;
+            box-shadow: var(--shadow-medium);
+            color: var(--color-text-light);
+            /* Add a subtle animation */
+            animation: pulseBorder 2s infinite alternate;
+        }
+
+        .coming-soon-box i {
+            font-size: 3em;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+        }
+
+        .coming-soon-box p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: var(--color-text-mid);
+        }
+
+        .coming-soon-box .small-text {
+            font-size: 0.9em;
+            color: var(--color-text-mid);
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: var(--color-dark-alt);
+            padding: 40px 25px;
+            text-align: center;
+            color: var(--color-text-mid);
+            border-top: 1px solid var(--color-border-dark);
+            box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 0.95em;
+        }
+
+        .footer-note {
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--color-text-light);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: color var(--transition-speed);
+        }
+
+        .footer-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .social-links {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            color: var(--color-text-light);
+            font-size: 1.8em;
+            margin: 0 15px;
+            transition: color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .social-links a:hover {
+            color: var(--color-primary);
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        .copyright {
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: var(--color-text-mid);
+        }
+
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(80px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulseUnderline {
+            0% { width: 0; opacity: 0.5; }
+            50% { width: 120px; opacity: 1; }
+            100% { width: 0; opacity: 0.5; }
+        }
+
+        @keyframes moveParticles {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        @keyframes pulseBorder {
+            0% { border-color: var(--color-primary); box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); }
+            100% { border-color: var(--color-secondary); box-shadow: 0 0 25px rgba(255, 0, 255, 0.4); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .tool-hero h1 {
+                font-size: 3.5em;
+            }
+            .section h2 {
+                font-size: 2.8em;
+            }
+            .steps-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+            }
+            .logo {
+                margin-bottom: 20px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            nav ul li {
+                margin: 0 15px 15px 15px;
+            }
+            .tool-hero {
+                padding: 80px 0 40px;
+            }
+            .tool-hero h1 {
+                font-size: 2.8em;
+            }
+            .tool-hero .hero-subtitle {
+                font-size: 1.1em;
+            }
+            .cta-button {
+                padding: 14px 28px;
+                font-size: 1.1em;
+            }
+            .section {
+                padding: 60px 20px;
+            }
+            .section h2 {
+                font-size: 2.2em;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+            .step-item {
+                padding: 25px;
+            }
+            .tool-form {
+                padding: 30px;
+            }
+            .tool-form input[type="url"] {
+                width: calc(100% - 30px);
+            }
+            .coming-soon-box {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.8em;
+            }
+            nav ul li {
+                margin: 0 10px 10px 10px;
+                font-size: 0.9em;
+            }
+            .tool-hero h1 {
+                font-size: 2em;
+            }
+            .tool-hero .hero-subtitle {
+                font-size: 1em;
+            }
+            .section h2 {
+                font-size: 1.8em;
+            }
+            .tool-form input[type="url"] {
+                width: calc(100% - 20px);
+            }
+            .tool-form button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+            .footer {
+                padding: 25px 15px;
+            }
+            .social-links a {
+                font-size: 1.5em;
+                margin: 0 10px;
+            }
+            .footer-links a {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">NexGen AI<span>.</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#ai-features">AI Features</a></li>
+                    <li><a href="index.html#portfolio">Portfolio</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-hero">
+        <div class="container">
+            <h1>AI URL to Video Generator</h1>
+            <p class="hero-subtitle">Transform any blog post, article, webpage, product page, or online content URL into a professional AI video with voiceover, avatar, and dynamic slides.</p>
+            <a href="#input-form-section" class="cta-button" aria-label="Start Generating Video">Start Generating <i class="fas fa-arrow-down"></i></a>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="section dark-bg-alt">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-item">
+                    <i class="fas fa-paste"></i>
+                    <h3>1. Paste Your URL</h3>
+                    <p>Input any URL – from a detailed blog post to a product page. Our AI is designed to understand diverse content formats.</p>
+                </div>
+                <div class="step-item">
+                    <i class="fas fa-play-circle"></i>
+                    <h3>2. Click “Generate Video”</h3>
+                    <p>Initiate the magic with a single click. Our intelligent AI immediately begins processing your content.</p>
+                </div>
+                <div class="step-item">
+                    <i class="fas fa-robot"></i>
+                    <h3>3. AI Transforms & Creates</h3>
+                    <p>The tool automatically extracts key content, rewrites it into a concise script, generates dynamic slides, and adds a professional AI voiceover with an optional avatar.</p>
+                </div>
+                <div class="step-item">
+                    <i class="fas fa-edit"></i>
+                    <h3>4. Preview, Edit & Export</h3>
+                    <p>Preview your generated video, make any necessary edits or refinements, then download it in various formats (MP4, GIF, etc.) or share directly.</p>
+                <p class="small-text" style="margin-top: 10px; font-style: italic; color: var(--color-text-mid);">*Full editing and diverse export options coming soon.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="input-form-section" class="section">
+        <div class="container">
+            <h2>Try the Generator</h2>
+            <form id="url-to-video-form" class="tool-form">
+                <label for="input-url">Paste URL below</label>
+                <input type="url" id="input-url" placeholder="E.g., https://your-website.com/your-product-page" required aria-label="Input URL for video generation" />
+                <button type="submit" id="generate-button" aria-label="Generate Video">Generate Video <i class="fas fa-magic"></i></button>
+            </form>
+            <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+            
+            <div id="coming-soon-notice" class="coming-soon-box">
+                <i class="fas fa-hourglass-half"></i>
+                <p>This feature is currently in beta. Full functionality, including advanced editing and diverse download options, is coming soon!</p>
+                <p class="small-text">We're actively working on bringing you the best AI video creation experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-note">Part of NexGen AI Studios · All tools are 100% free to use</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#ai-features">Other Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+            <div class="social-links">
+                <a href="#" target="_blank" aria-label="LinkedIn profile"><i class="fab fa-linkedin"></i></a>
+                <a href="#" target="_blank" aria-label="GitHub profile"><i class="fab fa-github"></i></a>
+                <a href="#" target="_blank" aria-label="Twitter profile"><i class="fab fa-x-twitter"></i></a>
+            </div>
+            <p class="copyright">&copy; 2025 NexGen AI Studios. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('url-to-video-form');
+            const inputUrl = document.getElementById('input-url');
+            const generateButton = document.getElementById('generate-button');
+            const statusMessage = document.getElementById('status-message');
+            const comingSoonNotice = document.getElementById('coming-soon-notice');
+
+            // Initially hide the status message and show the coming soon notice
+            statusMessage.style.display = 'none';
+            comingSoonNotice.style.display = 'block'; // Ensure it's visible by default
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                const url = inputUrl.value;
+
+                // Hide coming soon notice and show status message
+                comingSoonNotice.style.display = 'none';
+                statusMessage.style.display = 'block';
+                statusMessage.style.color = 'var(--color-primary)'; /* Use primary color for status */
+                statusMessage.textContent = 'Processing your video... Please wait.';
+                generateButton.disabled = true; // Disable button during processing
+                generateButton.style.cursor = 'not-allowed'; // Indicate disabled state visually
+
+                // Simulate an API call or processing delay
+                setTimeout(() => {
+                    // This is where you would typically make a fetch/POST request to your backend
+                    // Example:
+                    /*
+                    fetch('/api/generate-video', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ url: url })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            statusMessage.style.color = 'var(--color-success)';
+                            statusMessage.textContent = 'Video generated! Redirecting to preview...';
+                            // Example: Redirect to a preview page or external tool
+                            // window.location.href = `video-preview.html?id=${data.videoId}`;
+                            // window.open(data.previewUrl, '_blank');
+                        } else {
+                            statusMessage.style.color = 'var(--color-error)';
+                            statusMessage.textContent = 'Error generating video: ' + (data.message || 'Unknown error.');
+                        }
+                    })
+                    .catch(error => {
+                        statusMessage.style.color = 'var(--color-error)';
+                        statusMessage.textContent = 'Network error or server issue. Please try again later.';
+                        console.error('Error:', error);
+                    })
+                    .finally(() => {
+                        generateButton.disabled = false; // Re-enable button
+                        generateButton.style.cursor = 'pointer'; // Restore cursor
+                    });
+                    */
+
+                    // For now, display the "coming soon" message after simulation
+                    statusMessage.style.color = 'var(--color-text-mid)';
+                    statusMessage.textContent = 'Video generation simulated. This feature is coming soon!';
+                    comingSoonNotice.style.display = 'block'; // Show notice again
+                    generateButton.disabled = false; // Re-enable button
+                    generateButton.style.cursor = 'pointer'; // Restore cursor
+                }, 2500); // Simulate 2.5 seconds of processing
+            });
+        });
+    </script>
+
+</body>
+</html>
